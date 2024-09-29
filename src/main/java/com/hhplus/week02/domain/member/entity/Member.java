@@ -1,10 +1,7 @@
-package com.hhplus.week02.domain.member;
+package com.hhplus.week02.domain.member.entity;
 
 import com.hhplus.week02.domain.common.entity.Timestamp;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 
 @Entity
@@ -12,7 +9,7 @@ import lombok.Getter;
 public class Member extends Timestamp {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     /** 유저명 */
