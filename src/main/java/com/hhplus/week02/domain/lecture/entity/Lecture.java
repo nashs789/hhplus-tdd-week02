@@ -5,12 +5,18 @@ import com.hhplus.week02.domain.common.entity.Timestamp;
 import com.hhplus.week02.domain.lecture.enums.LectureStatus;
 import com.hhplus.week02.domain.lecture.enums.LectureType;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Lecture extends Timestamp {
 
     @Id

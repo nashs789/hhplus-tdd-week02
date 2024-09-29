@@ -7,6 +7,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Getter
+@ToString
 @Builder
 @AllArgsConstructor
 public class AvailableLectureRes {
