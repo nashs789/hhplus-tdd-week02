@@ -1,5 +1,6 @@
 package com.hhplus.week02.domain.lecture;
 
+import com.hhplus.week02.application.LectureInfo;
 import com.hhplus.week02.infrastructure.lecture.LectureRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,7 +43,7 @@ public class LectureServiceUnitTest {
         when(lectureRepository.selectAvailableLectures(now.toLocalDate(), REGISTER)).thenReturn(lecturesList);
 
         // when
-        List<Lecture> availableLectureRes = lectureService.selectAvailableLectures();
+        List<LectureInfo> availableLectureRes = lectureService.selectAvailableLectures();
 
         // then
         assertEquals(lecturesList.size(), availableLectureRes.size());
@@ -59,7 +60,7 @@ public class LectureServiceUnitTest {
         when(lectureRepository.selectAvailableLectures(now.toLocalDate(), REGISTER)).thenReturn(lecturesList);
 
         // when
-        List<Lecture> availableLectureRes = lectureService.selectAvailableLectures();
+        List<LectureInfo> availableLectureRes = lectureService.selectAvailableLectures();
 
         // then
         assertEquals(NO_RESULT, availableLectureRes.size());
