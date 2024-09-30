@@ -1,5 +1,6 @@
 package com.hhplus.week02.domain.common.exception;
 
+import com.hhplus.week02.domain.lecture.LectureException;
 import com.hhplus.week02.domain.member.MemberException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,5 +18,11 @@ public class GlobalException {
     public ResponseEntity handleException(MemberException e) {
         return ResponseEntity.status(e.getMemberExceptionMsg().getStatus())
                              .body(new RuntimeException(e.getMemberExceptionMsg().getMsg()));
+    }
+
+    @ExceptionHandler(value = LectureException.class)
+    public ResponseEntity handleException(LectureException e) {
+        return ResponseEntity.status(e.getLectureExceptionMsg().getStatus())
+                             .body(new RuntimeException(e.getLectureExceptionMsg().getMsg()));
     }
 }

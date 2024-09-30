@@ -1,6 +1,9 @@
 package com.hhplus.week02.api.lecture;
 
+import com.hhplus.week02.api.lecture.dto.LectureHistoryResponse;
 import com.hhplus.week02.api.lecture.dto.AvailableLectureResponse;
+import com.hhplus.week02.api.lecture.dto.RegisterLectureRequest;
+import com.hhplus.week02.application.LectureHistoryInfo;
 import com.hhplus.week02.application.LectureFacade;
 import com.hhplus.week02.application.LectureInfo;
 import lombok.RequiredArgsConstructor;
@@ -29,12 +32,18 @@ public class LectureController {
         return ResponseEntity.ok(lectureInfos);
     }
 
-    @PostMapping("{lectureId}/register/{userId}")
-    public ResponseEntity<List> registerLecture(
-            @PathVariable("lectureId") final Long lectureId,
-            @PathVariable("userId") final Long userId
-    ) {
-        // new RegisterLectureRequest(lectureId, userId)
-        return null;
+    @GetMapping("/{userID}")
+    public List<LectureHistoryResponse> selectHistoriesById(@PathVariable("userID") Long userId) {
+        return lectureFacade.selectHistoriesById(userId)
+                            .stream()
+                            .map(LectureHistoryInfo::toUserHistoryRes)
+                            .collect(Collectors.toUnmodifiableList());
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<LectureHistoryResponse> registerLecture(@RequestBody RegisterLectureRequest registerLectureRequest) {
+        LectureHistoryResponse userHistoryRes = lectureFacade.registerLecture(registerLectureRequest)
+                                                             .toUserHistoryRes();
+        return ResponseEntity.ok(userHistoryRes);
     }
 }

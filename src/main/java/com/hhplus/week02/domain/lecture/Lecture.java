@@ -42,7 +42,7 @@ public class Lecture extends Timestamp {
     private Long registerCnt;
 
     /** 정원 */
-    @Column(nullable = false, columnDefinition = "bigint default 0")
+    @Column(nullable = false, columnDefinition = "bigint default 30")
     private Long capacity;
 
     /** 강의 타입 */
