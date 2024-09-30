@@ -1,8 +1,7 @@
 package com.hhplus.week02.domain.lecture;
 
-import com.hhplus.week02.api.lecture.dto.AvailableLectureResponse;
+import com.hhplus.week02.application.LectureInfo;
 import com.hhplus.week02.domain.common.entity.Timestamp;
-import com.hhplus.week02.domain.history.History;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Getter
@@ -63,14 +61,16 @@ public class Lecture extends Timestamp {
     @Column(nullable = false)
     private LocalDateTime regEndTime;
 
-    public AvailableLectureResponse toAvailableLectureRes() {
-        return AvailableLectureResponse.builder()
-                                       .name(this.name)
-                                       .instructor(this.instructor)
-                                       .type(this.type)
-                                       .status(this.status)
-                                       .regStartTime(this.regStartTime)
-                                       .regEndTime(this.regEndTime)
-                                       .build();
+    public LectureInfo toLectureInfo() {
+        return LectureInfo.builder()
+                          .id(id)
+                          .name(name)
+                          .instructor(instructor)
+                          .capacity(capacity)
+                          .type(type)
+                          .status(status)
+                          .regStartTime(regStartTime)
+                          .regEndTime(regEndTime)
+                          .build();
     }
 }

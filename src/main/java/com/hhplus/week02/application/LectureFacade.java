@@ -22,20 +22,14 @@ public class LectureFacade {
     private final HistoryService historyService;
     private final MemberValidator memberValidator;
 
-    public List<AvailableLectureResponse> selectAvailableLectures() {
-        return lectureService.selectAvailableLectures()
-                             .stream()
-                             .map(Lecture::toAvailableLectureRes)
-                             .collect(Collectors.toUnmodifiableList());
+    public List<LectureInfo> selectAvailableLectures() {
+        return lectureService.selectAvailableLectures();
     }
 
-    public List<UserHistoryResponse> selectHistoriesById(final Long userId) {
+    public List<HistoryInfo> selectHistoriesById(final Long userId) {
         memberValidator.validator(userId);
 
-        return historyService.selectHistoriesById(userId)
-                             .stream()
-                             .map(History::toUserHistoryRes)
-                             .collect(Collectors.toUnmodifiableList());
+        return historyService.selectHistoriesById(userId);
     }
 
     public void registerLecture(final RegisterLectureRequest registerLectureRequest) {
