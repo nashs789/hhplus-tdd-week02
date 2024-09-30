@@ -1,6 +1,5 @@
 package com.hhplus.week02.domain.lecture.service;
 
-import com.hhplus.week02.api.lecture.dto.AvailableLectureRes;
 import com.hhplus.week02.domain.lecture.entity.Lecture;
 import com.hhplus.week02.infrastructure.lecture.LectureRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -45,7 +44,7 @@ class LectureServiceIntegrationTest {
         lectureRepository.saveAll(lecturesList);
 
         // when
-        List<AvailableLectureRes> availableLectureRes = lectureService.selectAvailableLectures();
+        List<Lecture> availableLectureRes = lectureService.selectAvailableLectures();
 
         // then
         assertEquals(lecturesList.size(), availableLectureRes.stream()
@@ -67,7 +66,7 @@ class LectureServiceIntegrationTest {
         lectureRepository.saveAll(lecturesList);
 
         // when
-        List<AvailableLectureRes> availableLectureRes = lectureService.selectAvailableLectures();
+        List<Lecture> availableLectureRes = lectureService.selectAvailableLectures();
 
         // then
         assertEquals(NO_RESULT, availableLectureRes.stream()
@@ -89,7 +88,7 @@ class LectureServiceIntegrationTest {
         lectureRepository.saveAll(lecturesList);
 
         // when
-        List<AvailableLectureRes> availableLectureRes = lectureService.selectAvailableLectures();
+        List<Lecture> availableLectureRes = lectureService.selectAvailableLectures();
 
         // then
         assertEquals(NO_RESULT, availableLectureRes.stream()
@@ -110,7 +109,7 @@ class LectureServiceIntegrationTest {
 
         lectureRepository.saveAll(lecturesList);
 
-        List<AvailableLectureRes> availableLectureRes = lectureService.selectAvailableLectures();
+        List<Lecture> availableLectureRes = lectureService.selectAvailableLectures();
 
         // then
         assertEquals(NO_RESULT, availableLectureRes.stream()

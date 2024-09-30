@@ -17,10 +17,7 @@ public class LectureService {
 
     private final LectureRepository lectureRepository;
 
-    public List<AvailableLectureRes> selectAvailableLectures() {
-        return lectureRepository.selectAvailableLectures(LocalDate.now(), LectureStatus.REGISTER)
-                                .stream()
-                                .map(Lecture::toAvailableLectureRes)
-                                .collect(Collectors.toUnmodifiableList());
+    public List<Lecture> selectAvailableLectures() {
+        return lectureRepository.selectAvailableLectures(LocalDate.now(), LectureStatus.REGISTER);
     }
 }

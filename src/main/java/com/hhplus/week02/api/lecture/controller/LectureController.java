@@ -1,11 +1,13 @@
 package com.hhplus.week02.api.lecture.controller;
 
 import com.hhplus.week02.api.lecture.dto.AvailableLectureRes;
-import com.hhplus.week02.domain.lecture.service.LectureService;
+import com.hhplus.week02.application.LectureFacade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -15,11 +17,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LectureController {
 
-    // TODO - 지금 구조에서 Facade 가 필요 할까? (일단 Service)
-    private final LectureService lectureService;
+    private final LectureFacade lectureFacade;
 
     @GetMapping("/available")
     public ResponseEntity<List<AvailableLectureRes>> selectAvailableLectures() {
-        return ResponseEntity.ok(lectureService.selectAvailableLectures());
+        return ResponseEntity.ok(lectureFacade.selectAvailableLectures());
     }
 }
