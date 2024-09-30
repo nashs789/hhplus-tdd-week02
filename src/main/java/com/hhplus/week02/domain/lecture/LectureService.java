@@ -1,15 +1,13 @@
-package com.hhplus.week02.domain.lecture.service;
+package com.hhplus.week02.domain.lecture;
 
-import com.hhplus.week02.api.lecture.dto.AvailableLectureRes;
-import com.hhplus.week02.domain.lecture.entity.Lecture;
-import com.hhplus.week02.domain.lecture.enums.LectureStatus;
 import com.hhplus.week02.infrastructure.lecture.LectureRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static com.hhplus.week02.domain.lecture.Lecture.LectureStatus.*;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +16,6 @@ public class LectureService {
     private final LectureRepository lectureRepository;
 
     public List<Lecture> selectAvailableLectures() {
-        return lectureRepository.selectAvailableLectures(LocalDate.now(), LectureStatus.REGISTER);
+        return lectureRepository.selectAvailableLectures(LocalDate.now(), REGISTER);
     }
 }

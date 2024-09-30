@@ -1,6 +1,5 @@
-package com.hhplus.week02.domain.lecture.service;
+package com.hhplus.week02.domain.lecture;
 
-import com.hhplus.week02.domain.lecture.entity.Lecture;
 import com.hhplus.week02.infrastructure.lecture.LectureRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.hhplus.week02.domain.lecture.enums.LectureStatus.*;
-import static com.hhplus.week02.domain.lecture.enums.LectureType.SPECIAL;
+import static com.hhplus.week02.domain.lecture.Lecture.LectureStatus.*;
+import static com.hhplus.week02.domain.lecture.Lecture.LectureType.SPECIAL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest

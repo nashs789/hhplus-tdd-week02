@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class UserHistoryRes {
+public class UserHistoryResponse {
     private Long lectureId;
     private String lectureName;
     private String instructor;

@@ -1,4 +1,4 @@
-package com.hhplus.week02.domain.member.entity;
+package com.hhplus.week02.domain.member;
 
 import com.hhplus.week02.domain.common.entity.Timestamp;
 import jakarta.persistence.*;

@@ -1,6 +1,6 @@
 package com.hhplus.week02.domain.common.exception;
 
-import com.hhplus.week02.domain.member.exception.MemberException;
+import com.hhplus.week02.domain.member.MemberException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

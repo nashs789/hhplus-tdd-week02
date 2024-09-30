@@ -1,11 +1,10 @@
-package com.hhplus.week02.domain.member.validator;
+package com.hhplus.week02.domain.member;
 
-import com.hhplus.week02.domain.member.exception.MemberException;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.hhplus.week02.domain.member.enums.MemberExceptionMsg.INVALID;
+import static com.hhplus.week02.domain.member.MemberException.MemberExceptionMsg.*;
 
 @Component
 public class MemberValidator {
