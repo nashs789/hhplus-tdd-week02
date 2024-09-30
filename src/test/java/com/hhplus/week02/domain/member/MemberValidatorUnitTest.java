@@ -1,6 +1,5 @@
-package com.hhplus.week02.domain.member.validator;
+package com.hhplus.week02.domain.member;
 
-import com.hhplus.week02.domain.member.exception.MemberException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;

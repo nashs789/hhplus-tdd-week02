@@ -1,9 +1,8 @@
-package com.hhplus.week02.domain.lecture.entity;
+package com.hhplus.week02.domain.lecture;
 
-import com.hhplus.week02.api.lecture.dto.AvailableLectureRes;
+import com.hhplus.week02.api.lecture.dto.AvailableLectureResponse;
 import com.hhplus.week02.domain.common.entity.Timestamp;
-import com.hhplus.week02.domain.lecture.enums.LectureStatus;
-import com.hhplus.week02.domain.lecture.enums.LectureType;
+import com.hhplus.week02.domain.history.History;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,6 +18,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Lecture extends Timestamp {
+
+    public enum LectureStatus {
+        REGISTER, PENDING, CANCELED, FINISHED
+    }
+
+    public enum LectureType {
+        COMMON, SPECIAL
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -55,14 +63,14 @@ public class Lecture extends Timestamp {
     @Column(nullable = false)
     private LocalDateTime regEndTime;
 
-    public AvailableLectureRes toAvailableLectureRes() {
-        return AvailableLectureRes.builder()
-                                  .name(this.name)
-                                  .instructor(this.instructor)
-                                  .type(this.type)
-                                  .status(this.status)
-                                  .regStartTime(this.regStartTime)
-                                  .regEndTime(this.regEndTime)
-                                  .build();
+    public AvailableLectureResponse toAvailableLectureRes() {
+        return AvailableLectureResponse.builder()
+                                       .name(this.name)
+                                       .instructor(this.instructor)
+                                       .type(this.type)
+                                       .status(this.status)
+                                       .regStartTime(this.regStartTime)
+                                       .regEndTime(this.regEndTime)
+                                       .build();
     }
 }
