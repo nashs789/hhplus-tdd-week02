@@ -1,6 +1,7 @@
 package com.hhplus.week02.domain.lecture;
 
 import com.hhplus.week02.application.LectureInfo;
+import com.hhplus.week02.infrastructure.lecture.LectureHistoryRepository;
 import com.hhplus.week02.infrastructure.lecture.LectureRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,8 +14,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-import static com.hhplus.week02.domain.lecture.Lecture.LectureStatus.*;
-import static com.hhplus.week02.domain.lecture.Lecture.LectureType.*;
+import static com.hhplus.week02.domain.lecture.Lecture.LectureStatus.REGISTER;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -26,6 +26,9 @@ public class LectureServiceUnitTest {
     @Mock
     LectureRepository lectureRepository;
 
+    @Mock
+    LectureHistoryRepository lectureHistoryRepository;
+
     @InjectMocks
     private LectureService lectureService;
 
@@ -35,9 +38,7 @@ public class LectureServiceUnitTest {
         // given
         LocalDateTime now = LocalDateTime.now();
         List<Lecture> lecturesList = List.of(
-                Lecture.builder().name("강의1").instructor("강사1").regStartTime(now.minusDays(1)).regEndTime(now.plusDays(1)).id(null).capacity(30L).registerCnt(0L).status(REGISTER).type(SPECIAL).build(),
-                Lecture.builder().name("강의2").instructor("강사2").regStartTime(now.minusDays(10)).regEndTime(now.plusDays(10)).id(null).capacity(30L).registerCnt(0L).status(REGISTER).type(SPECIAL).build(),
-                Lecture.builder().name("강의3").instructor("강사3").regStartTime(now.minusDays(100)).regEndTime(now.plusDays(100)).id(null).capacity(30L).registerCnt(0L).status(REGISTER).type(SPECIAL).build()
+                new Lecture(), new Lecture(), new Lecture()
         );
 
         when(lectureRepository.selectAvailableLectures(now.toLocalDate(), REGISTER)).thenReturn(lecturesList);
@@ -65,5 +66,23 @@ public class LectureServiceUnitTest {
         // then
         assertEquals(NO_RESULT, availableLectureRes.size());
         verify(lectureRepository, atLeastOnce()).selectAvailableLectures(now.toLocalDate(), REGISTER);
+    }
+
+    @Test
+    @DisplayName("신청한 강의 이력 조회")
+    public void selectRegisterLectures() {
+        // given
+        List<LectureHistory> lecturesList = List.of(
+                new LectureHistory(), new LectureHistory(), new LectureHistory()
+        );
+
+        when(lectureHistoryRepository.findAllByMember_Id(anyLong())).thenReturn(lecturesList);
+
+        // when
+        List<LectureHistory> lectureHistories = lectureHistoryRepository.findAllByMember_Id(anyLong());
+
+        // then
+        assertEquals(lecturesList.size(), lectureHistories.size());
+        verify(lectureHistoryRepository, atLeastOnce()).findAllByMember_Id(anyLong());
     }
 }

@@ -15,4 +15,8 @@ public class MemberService {
     public Member selectMemberById(Long userId) {
         return memberRepository.findById(userId).orElseThrow(() -> { throw new MemberException(NOT_EXIST); });
     }
+
+    public Member saveMember(Member member) {
+        return memberRepository.save(member);
+    }
 }

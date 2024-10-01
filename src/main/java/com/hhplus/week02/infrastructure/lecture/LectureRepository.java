@@ -14,6 +14,6 @@ import static com.hhplus.week02.domain.lecture.Lecture.*;
 @Repository
 public interface LectureRepository extends JpaRepository<Lecture, Long> {
 
-    @Query("SELECT l FROM Lecture l WHERE FUNCTION('DATE', l.regStartTime) <= :now AND FUNCTION('DATE', l.regEndTime) >= :now AND l.registerCnt < 30 AND l.status = :status")
+    @Query("SELECT l FROM Lecture l WHERE FUNCTION('DATE', l.regStartTime) <= :now AND FUNCTION('DATE', l.regEndTime) >= :now AND l.registerCnt < l.capacity AND l.status = :status")
     List<Lecture> selectAvailableLectures(@Param("now") LocalDate now, @Param("status") LectureStatus status);
 }

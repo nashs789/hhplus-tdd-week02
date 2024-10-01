@@ -3,15 +3,13 @@ package com.hhplus.week02.domain.lecture;
 import com.hhplus.week02.application.LectureInfo;
 import com.hhplus.week02.domain.common.entity.Timestamp;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

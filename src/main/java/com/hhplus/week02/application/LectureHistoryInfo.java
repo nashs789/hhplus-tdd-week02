@@ -5,8 +5,10 @@ import com.hhplus.week02.domain.lecture.Lecture;
 import com.hhplus.week02.domain.member.Member;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 @Builder
 public class LectureHistoryInfo {
     private Long id;

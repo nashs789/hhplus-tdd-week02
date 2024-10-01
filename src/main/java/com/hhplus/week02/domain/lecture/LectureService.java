@@ -11,10 +11,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.hhplus.week02.domain.lecture.Lecture.LectureStatus.REGISTER;
+import static com.hhplus.week02.domain.lecture.LectureException.LectureExceptionMsg.*;
 
 @Slf4j
 @Service
@@ -42,11 +45,20 @@ public class LectureService {
     }
 
     public LectureHistoryInfo registerLecture(LectureHistory lectureHistory) {
+        Lecture targetLecture = lectureHistory.getLecture();
+        Set<Long> availableLectureIds = selectAvailableLectures().stream()
+                                                                 .map(LectureInfo::getId)
+                                                                 .collect(Collectors.toSet());
+
+        if(!availableLectureIds.contains(targetLecture.getId())) {
+            throw new LectureException(NOT_AVAILABLE);
+        }
+
         return lectureHistoryRepository.save(lectureHistory)
                                        .toHistoryInfo();
     }
 
     public Lecture selectLectureByUserId(Long userId) {
-        return lectureRepository.findById(userId).orElseThrow(() -> { throw new LectureException(LectureExceptionMsg.NOT_EXIST); });
+        return lectureRepository.findById(userId).orElseThrow(() -> { throw new LectureException(NOT_EXIST); });
     }
 }
