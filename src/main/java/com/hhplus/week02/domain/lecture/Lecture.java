@@ -7,9 +7,10 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+import static com.hhplus.week02.domain.lecture.LectureException.LectureExceptionMsg.*;
+
 @Entity
-@Getter
-@ToString
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -70,5 +71,15 @@ public class Lecture extends Timestamp {
                           .regStartTime(regStartTime)
                           .regEndTime(regEndTime)
                           .build();
+    }
+
+    public Lecture increaseRegisterCount() {
+        if(registerCnt >= capacity) {
+            throw new LectureException(NOT_AVAILABLE);
+        }
+
+        registerCnt++;
+
+        return this;
     }
 }

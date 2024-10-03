@@ -1,6 +1,6 @@
 package com.hhplus.week02.domain.member;
 
-import com.hhplus.week02.infrastructure.member.MemberRepository;
+import com.hhplus.week02.infra.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

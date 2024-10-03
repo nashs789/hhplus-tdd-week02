@@ -1,8 +1,8 @@
 package com.hhplus.week02.domain.lecture;
 
 import com.hhplus.week02.application.LectureInfo;
-import com.hhplus.week02.infrastructure.lecture.LectureHistoryRepository;
-import com.hhplus.week02.infrastructure.lecture.LectureRepository;
+import com.hhplus.week02.infra.lecture.LectureHistoryRepository;
+import com.hhplus.week02.infra.lecture.LectureRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,14 +41,14 @@ public class LectureServiceUnitTest {
                 new Lecture(), new Lecture(), new Lecture()
         );
 
-        when(lectureRepository.selectAvailableLectures(now.toLocalDate(), REGISTER)).thenReturn(lecturesList);
+        when(lectureRepository.selectAvailableLectures(now, REGISTER)).thenReturn(lecturesList);
 
         // when
         List<LectureInfo> availableLectureRes = lectureService.selectAvailableLectures();
 
         // then
         assertEquals(lecturesList.size(), availableLectureRes.size());
-        verify(lectureRepository, atLeastOnce()).selectAvailableLectures(now.toLocalDate(), REGISTER);
+        verify(lectureRepository, atLeastOnce()).selectAvailableLectures(now, REGISTER);
     }
 
     @Test
@@ -58,14 +58,14 @@ public class LectureServiceUnitTest {
         LocalDateTime now = LocalDateTime.now();
         List<Lecture> lecturesList = Collections.emptyList();
 
-        when(lectureRepository.selectAvailableLectures(now.toLocalDate(), REGISTER)).thenReturn(lecturesList);
+        when(lectureRepository.selectAvailableLectures(now, REGISTER)).thenReturn(lecturesList);
 
         // when
         List<LectureInfo> availableLectureRes = lectureService.selectAvailableLectures();
 
         // then
         assertEquals(NO_RESULT, availableLectureRes.size());
-        verify(lectureRepository, atLeastOnce()).selectAvailableLectures(now.toLocalDate(), REGISTER);
+        verify(lectureRepository, atLeastOnce()).selectAvailableLectures(now, REGISTER);
     }
 
     @Test

@@ -1,4 +1,4 @@
-package com.hhplus.week02.infrastructure.lecture;
+package com.hhplus.week02.infra.lecture;
 
 import com.hhplus.week02.domain.lecture.LectureHistory;
 import org.springframework.data.jpa.repository.JpaRepository;
