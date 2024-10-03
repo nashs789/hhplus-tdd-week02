@@ -6,7 +6,6 @@ import com.hhplus.week02.domain.member.Member;
 import com.hhplus.week02.domain.member.MemberValidator;
 import com.hhplus.week02.infra.lecture.LectureHistoryRepository;
 import com.hhplus.week02.infra.lecture.LectureRepository;
-import com.hhplus.week02.infra.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,11 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.hhplus.week02.domain.lecture.Lecture.LectureStatus.REGISTER;
-import static com.hhplus.week02.domain.lecture.LectureException.LectureExceptionMsg.NOT_AVAILABLE;
-import static com.hhplus.week02.domain.lecture.LectureException.LectureExceptionMsg.NOT_EXIST;
+import static com.hhplus.week02.domain.lecture.LectureException.LectureExceptionMsg.*;
 
 @Slf4j
 @Service
@@ -28,7 +27,6 @@ public class LectureService {
     private final LectureRepository lectureRepository;
     private final LectureHistoryRepository lectureHistoryRepository;
     private final MemberValidator memberValidator;
-    private final MemberRepository memberRepository;
 
     /**
      * 현재 이용 등록이 가능한 강의 리스트
@@ -58,13 +56,16 @@ public class LectureService {
     }
 
     /**
-     *
-     * @param member
-     * @param lecture
-     * @return
+     * 강의 등록
+     * @param member 유저 정보
+     * @param lecture 강의 정보
+     * @return 신청 이력
      */
     @Transactional
     public LectureHistoryInfo registerLecture(Member member, Lecture lecture) {
+        lectureHistoryRepository.findByMember_IdAndLecture_Id(member.getId(), lecture.getId());
+                                //.orElseThrow(() -> { throw new LectureException(ALREADY_REGISTERED); });
+
         LectureHistory lectureHistory = LectureHistory.builder()
                                                       .lecture(lecture)
                                                       .member(member)
@@ -77,27 +78,16 @@ public class LectureService {
 
         lectureRepository.save(registerLecture.increaseRegisterCount());
 
-        // TODO - 이미 신청 했는지도 확인(step4)
         return lectureHistoryRepository.save(lectureHistory).toHistoryInfo();
     }
 
     /**
-     *
-     * @param userId
+     * 강의 조회
+     * @param lectureId 강의 아이디
      * @return
      */
     @Transactional(readOnly = true)
-    public Lecture selectLectureByUserId(Long userId) {
-        return lectureRepository.findById(userId).orElseThrow(() -> { throw new LectureException(NOT_EXIST); });
-    }
-
-    @Transactional
-    public void deleteLecture(Lecture lecture) {
-        lectureRepository.delete(lecture);
-    }
-
-    @Transactional
-    public void deleteLectures(List<Lecture> lectureList) {
-        lectureRepository.deleteAll(lectureList);
+    public Lecture selectLectureByUserId(Long lectureId) {
+        return lectureRepository.findById(lectureId).orElseThrow(() -> { throw new LectureException(NOT_EXIST); });
     }
 }

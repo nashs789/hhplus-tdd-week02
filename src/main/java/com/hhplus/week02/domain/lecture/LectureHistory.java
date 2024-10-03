@@ -12,25 +12,23 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@IdClass(LectureHistoryId.class)
 public class LectureHistory extends Timestamp {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
     /** 강의 정보 */
+    @Id
     @ManyToOne
     @JoinColumn(name = "lecture_id", nullable = false)
     private Lecture lecture;
 
     /** 유저 정보 */
+    @Id
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
     public LectureHistoryInfo toHistoryInfo() {
         return LectureHistoryInfo.builder()
-                                 .id(id)
                                  .lecture(lecture)
                                  .member(member)
                                  .build();

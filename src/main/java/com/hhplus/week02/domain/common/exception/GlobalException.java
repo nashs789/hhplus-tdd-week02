@@ -22,6 +22,7 @@ public class GlobalException {
 
     @ExceptionHandler(value = LectureException.class)
     public ResponseEntity handleException(LectureException e) {
+        System.out.println(e.getMessage());
         return ResponseEntity.status(e.getLectureExceptionMsg().getStatus())
                              .body(new RuntimeException(e.getLectureExceptionMsg().getMsg()));
     }
