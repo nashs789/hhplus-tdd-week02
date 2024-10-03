@@ -95,7 +95,7 @@
 
 # 📌 ERD 설계와 이유
 
-<img width="574" alt="스크린샷 2024-10-03 오후 7 45 28" src="https://github.com/user-attachments/assets/b27c358b-3c09-4760-b59b-986a3828d966">
+<img width="574" alt="스크린샷 2024-10-03 오후 10 40 09" src="https://github.com/user-attachments/assets/05ddc67f-d152-44bd-abda-cee49f6b9e10">
 
 ### ⚙️ lecture
 강의를 관리하는 테이블 입니다.
@@ -128,9 +128,10 @@
 유저와 강의 관계를 매핑하는 중계 테이블 입니다.
 유저가 강의를 신청하면 해당 강의와 유저를 매핑하여 신청 이력을 남길 때 사용 합니다.
 
-- id(PK)
-- member_id(FK)
-- lecture_id(FK)
+한 유저가 한 강의에 대한 중복 신청을 막기 위해서 복합키를 사용하여 유저-강의 매핑을 하였습니다.
+
+- member_id(PK)
+- lecture_id(PK)
 - reg_at
 - upt_at
 
