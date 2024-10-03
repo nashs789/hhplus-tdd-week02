@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -30,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class LectureServiceIntegrationTest {
 
     private final int NO_RESULT = 0;
+    private final String uuid = UUID.randomUUID().toString();
     private final Logger log = LoggerFactory.getLogger(LectureServiceIntegrationTest.class);
 
     @Autowired
@@ -49,10 +51,10 @@ class LectureServiceIntegrationTest {
         LocalDateTime now = LocalDateTime.now();
         // 신청 가능한 강의 리스트
         List<Lecture> lecturesList = List.of(
-                Lecture.builder().name("Test LectureA").instructor("강사1").regStartTime(now.minusSeconds(10)).regEndTime(now.plusDays(1)).id(null).capacity(30L).registerCnt(0L).status(REGISTER).type(SPECIAL).build(),
-                Lecture.builder().name("Test LectureB").instructor("강사2").regStartTime(now.minusMinutes(1)).regEndTime(now.plusDays(1)).id(null).capacity(30L).registerCnt(0L).status(REGISTER).type(SPECIAL).build(),
-                Lecture.builder().name("Test LectureC").instructor("강사3").regStartTime(now.minusHours(1)).regEndTime(now.plusDays(1)).id(null).capacity(30L).registerCnt(0L).status(REGISTER).type(SPECIAL).build(),
-                Lecture.builder().name("Test LectureD").instructor("강사4").regStartTime(now.minusDays(1)).regEndTime(now.plusDays(1)).id(null).capacity(30L).registerCnt(0L).status(REGISTER).type(SPECIAL).build()
+                Lecture.builder().name(uuid).instructor("강사1").regStartTime(now.minusSeconds(10)).regEndTime(now.plusDays(1)).id(null).capacity(30L).registerCnt(0L).status(REGISTER).type(SPECIAL).build(),
+                Lecture.builder().name(uuid).instructor("강사2").regStartTime(now.minusMinutes(1)).regEndTime(now.plusDays(1)).id(null).capacity(30L).registerCnt(0L).status(REGISTER).type(SPECIAL).build(),
+                Lecture.builder().name(uuid).instructor("강사3").regStartTime(now.minusHours(1)).regEndTime(now.plusDays(1)).id(null).capacity(30L).registerCnt(0L).status(REGISTER).type(SPECIAL).build(),
+                Lecture.builder().name(uuid).instructor("강사4").regStartTime(now.minusDays(1)).regEndTime(now.plusDays(1)).id(null).capacity(30L).registerCnt(0L).status(REGISTER).type(SPECIAL).build()
         );
 
         lectureRepository.saveAll(lecturesList);
@@ -62,7 +64,7 @@ class LectureServiceIntegrationTest {
 
         // then
         assertEquals(lecturesList.size(), availableLectureRes.stream()
-                                                             .filter(e -> e.getName().startsWith("Test Lecture"))
+                                                             .filter(e -> e.getName().equals(uuid))
                                                              .count());
     }
 
@@ -74,9 +76,9 @@ class LectureServiceIntegrationTest {
         LocalDateTime now = LocalDateTime.now();
         // 유효하지 않은 신청 날짜의 강의 리스트
         List<Lecture> lecturesList = List.of(
-                Lecture.builder().name("Test LectureA").instructor("강사1").regStartTime(now.minusDays(10)).regEndTime(now.minusDays(1)).id(null).capacity(30L).registerCnt(0L).status(REGISTER).type(SPECIAL).build(),
-                Lecture.builder().name("Test LectureB").instructor("강사2").regStartTime(now.plusDays(10)).regEndTime(now.plusDays(20)).id(null).capacity(30L).registerCnt(0L).status(REGISTER).type(SPECIAL).build(),
-                Lecture.builder().name("Test LectureC").instructor("강사3").regStartTime(now.plusDays(1)).regEndTime(now.plusDays(100)).id(null).capacity(30L).registerCnt(0L).status(REGISTER).type(SPECIAL).build()
+                Lecture.builder().name(uuid).instructor("강사1").regStartTime(now.minusDays(10)).regEndTime(now.minusDays(1)).id(null).capacity(30L).registerCnt(0L).status(REGISTER).type(SPECIAL).build(),
+                Lecture.builder().name(uuid).instructor("강사2").regStartTime(now.plusDays(10)).regEndTime(now.plusDays(20)).id(null).capacity(30L).registerCnt(0L).status(REGISTER).type(SPECIAL).build(),
+                Lecture.builder().name(uuid).instructor("강사3").regStartTime(now.plusDays(1)).regEndTime(now.plusDays(100)).id(null).capacity(30L).registerCnt(0L).status(REGISTER).type(SPECIAL).build()
         );
 
         lectureRepository.saveAll(lecturesList);
@@ -86,7 +88,7 @@ class LectureServiceIntegrationTest {
 
         // then
         assertEquals(NO_RESULT, availableLectureRes.stream()
-                                                   .filter(e -> e.getName().startsWith("Test Lecture"))
+                                                   .filter(e -> e.getName().equals(uuid))
                                                    .count());
     }
 
@@ -98,9 +100,9 @@ class LectureServiceIntegrationTest {
         LocalDateTime now = LocalDateTime.now();
         // 정원이 30 가득찬 강의 리스트
         List<Lecture> lecturesList = List.of(
-                Lecture.builder().name("Test LectureA").instructor("강사1").regStartTime(now.minusDays(1)).regEndTime(now.plusDays(1)).id(null).capacity(30L).registerCnt(30L).status(FINISHED).type(SPECIAL).build(),
-                Lecture.builder().name("Test LectureB").instructor("강사2").regStartTime(now.minusDays(1)).regEndTime(now.plusDays(1)).id(null).capacity(30L).registerCnt(30L).status(FINISHED).type(SPECIAL).build(),
-                Lecture.builder().name("Test LectureC").instructor("강사3").regStartTime(now.minusDays(1)).regEndTime(now.plusDays(1)).id(null).capacity(30L).registerCnt(30L).status(FINISHED).type(SPECIAL).build()
+                Lecture.builder().name(uuid).instructor("강사1").regStartTime(now.minusDays(1)).regEndTime(now.plusDays(1)).id(null).capacity(30L).registerCnt(30L).status(FINISHED).type(SPECIAL).build(),
+                Lecture.builder().name(uuid).instructor("강사2").regStartTime(now.minusDays(1)).regEndTime(now.plusDays(1)).id(null).capacity(30L).registerCnt(30L).status(FINISHED).type(SPECIAL).build(),
+                Lecture.builder().name(uuid).instructor("강사3").regStartTime(now.minusDays(1)).regEndTime(now.plusDays(1)).id(null).capacity(30L).registerCnt(30L).status(FINISHED).type(SPECIAL).build()
         );
 
         lectureRepository.saveAll(lecturesList);
@@ -110,7 +112,7 @@ class LectureServiceIntegrationTest {
 
         // then
         assertEquals(NO_RESULT, availableLectureRes.stream()
-                                                   .filter(e -> e.getName().startsWith("Test Lecture"))
+                                                   .filter(e -> e.getName().equals(uuid))
                                                    .count());
     }
 
@@ -122,9 +124,9 @@ class LectureServiceIntegrationTest {
         LocalDateTime now = LocalDateTime.now();
         // status 상태가 REGISTER 가 아님, 정원이 가득 참
         List<Lecture> lecturesList = List.of(
-                Lecture.builder().name("Test LectureA").instructor("강사1").regStartTime(now.minusDays(1)).regEndTime(now.plusDays(1)).id(null).capacity(30L).registerCnt(0L).status(PENDING).type(SPECIAL).build(),
-                Lecture.builder().name("Test LectureB").instructor("강사2").regStartTime(now.minusDays(1)).regEndTime(now.plusDays(1)).id(null).capacity(30L).registerCnt(0L).status(CANCELED).type(SPECIAL).build(),
-                Lecture.builder().name("Test LectureC").instructor("강사3").regStartTime(now.minusDays(1)).regEndTime(now.plusDays(1)).id(null).capacity(30L).registerCnt(30L).status(FINISHED).type(SPECIAL).build()
+                Lecture.builder().name(uuid).instructor("강사1").regStartTime(now.minusDays(1)).regEndTime(now.plusDays(1)).id(null).capacity(30L).registerCnt(0L).status(PENDING).type(SPECIAL).build(),
+                Lecture.builder().name(uuid).instructor("강사2").regStartTime(now.minusDays(1)).regEndTime(now.plusDays(1)).id(null).capacity(30L).registerCnt(0L).status(CANCELED).type(SPECIAL).build(),
+                Lecture.builder().name(uuid).instructor("강사3").regStartTime(now.minusDays(1)).regEndTime(now.plusDays(1)).id(null).capacity(30L).registerCnt(30L).status(FINISHED).type(SPECIAL).build()
         );
 
         lectureRepository.saveAll(lecturesList);
@@ -132,7 +134,7 @@ class LectureServiceIntegrationTest {
 
         // then
         assertEquals(NO_RESULT, availableLectureRes.stream()
-                                                   .filter(e -> e.getName().startsWith("Test Lecture"))
+                                                   .filter(e -> e.getName().equals(uuid))
                                                    .count());
     }
 
@@ -144,9 +146,9 @@ class LectureServiceIntegrationTest {
         LocalDateTime now = LocalDateTime.now();
         // 신청 가능한 강의 리스트
         List<Lecture> lecturesList = List.of(
-                Lecture.builder().name("Test LectureA").instructor("강사1").regStartTime(now.minusDays(1)).regEndTime(now.plusDays(1)).id(null).capacity(30L).registerCnt(0L).status(REGISTER).type(SPECIAL).build(),
-                Lecture.builder().name("Test LectureB").instructor("강사2").regStartTime(now.minusDays(10)).regEndTime(now.plusDays(10)).id(null).capacity(30L).registerCnt(0L).status(REGISTER).type(SPECIAL).build(),
-                Lecture.builder().name("Test LectureC").instructor("강사3").regStartTime(now.minusDays(100)).regEndTime(now.plusDays(100)).id(null).capacity(30L).registerCnt(0L).status(REGISTER).type(SPECIAL).build()
+                Lecture.builder().name(uuid).instructor("강사1").regStartTime(now.minusDays(1)).regEndTime(now.plusDays(1)).id(null).capacity(30L).registerCnt(0L).status(REGISTER).type(SPECIAL).build(),
+                Lecture.builder().name(uuid).instructor("강사2").regStartTime(now.minusDays(10)).regEndTime(now.plusDays(10)).id(null).capacity(30L).registerCnt(0L).status(REGISTER).type(SPECIAL).build(),
+                Lecture.builder().name(uuid).instructor("강사3").regStartTime(now.minusDays(100)).regEndTime(now.plusDays(100)).id(null).capacity(30L).registerCnt(0L).status(REGISTER).type(SPECIAL).build()
         );
 
         List<Lecture> savedLectures = lectureRepository.saveAll(lecturesList);
@@ -156,10 +158,7 @@ class LectureServiceIntegrationTest {
 
         // when
         savedLectures.forEach((lecture) -> {
-            lectureService.registerLecture(LectureHistory.builder()
-                                                         .lecture(lecture)
-                                                         .member(savedMember)
-                                                         .build());
+            lectureService.registerLecture(savedMember, lecture);
         });
 
         // then
@@ -167,7 +166,7 @@ class LectureServiceIntegrationTest {
 
         assertEquals(savedLectures.size(),
                      lectureHistoryInfos.stream()
-                                        .filter(e -> e.getLecture().getName().startsWith("Test Lecture"))
+                                        .filter(e -> e.getLecture().getName().equals(uuid))
                                         .count());
     }
 
@@ -202,10 +201,7 @@ class LectureServiceIntegrationTest {
                     Member savedMember = memberRepository.save(Member.builder()
                                                                      .name("Test Member")
                                                                      .build());
-                    lectureService.registerLecture(LectureHistory.builder()
-                                                                 .lecture(saveLecture)
-                                                                 .member(savedMember)
-                                                                 .build());
+                    lectureService.registerLecture(savedMember, saveLecture);
                     successCount.addAndGet(1);
                 } catch(LectureException ex) {
                     failedCount.addAndGet(1);

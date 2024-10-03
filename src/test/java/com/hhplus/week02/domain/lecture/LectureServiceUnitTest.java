@@ -24,10 +24,10 @@ public class LectureServiceUnitTest {
     private final int NO_RESULT = 0;
 
     @Mock
-    LectureRepository lectureRepository;
+    private LectureRepository lectureRepository;
 
     @Mock
-    LectureHistoryRepository lectureHistoryRepository;
+    private LectureHistoryRepository lectureHistoryRepository;
 
     @InjectMocks
     private LectureService lectureService;
@@ -36,36 +36,32 @@ public class LectureServiceUnitTest {
     @DisplayName("신청 가능한 날짜의 3개의 강의 정상 조회(유닛)")
     public void isAvailableLectures() {
         // given
-        LocalDateTime now = LocalDateTime.now();
         List<Lecture> lecturesList = List.of(
                 new Lecture(), new Lecture(), new Lecture()
         );
 
-        when(lectureRepository.selectAvailableLectures(now, REGISTER)).thenReturn(lecturesList);
+        when(lectureRepository.selectAvailableLectures(any(LocalDateTime.class), eq(REGISTER))).thenReturn(lecturesList);
 
         // when
         List<LectureInfo> availableLectureRes = lectureService.selectAvailableLectures();
 
         // then
         assertEquals(lecturesList.size(), availableLectureRes.size());
-        verify(lectureRepository, atLeastOnce()).selectAvailableLectures(now, REGISTER);
+        verify(lectureRepository, atLeastOnce()).selectAvailableLectures(any(LocalDateTime.class), eq(REGISTER));
     }
 
     @Test
     @DisplayName("신청 가능한 날짜의 강의가 없음(유닛)")
     public void isNotAvailableLectures() {
         // given
-        LocalDateTime now = LocalDateTime.now();
-        List<Lecture> lecturesList = Collections.emptyList();
-
-        when(lectureRepository.selectAvailableLectures(now, REGISTER)).thenReturn(lecturesList);
+        when(lectureRepository.selectAvailableLectures(any(LocalDateTime.class), eq(REGISTER))).thenReturn(Collections.emptyList());
 
         // when
         List<LectureInfo> availableLectureRes = lectureService.selectAvailableLectures();
 
         // then
         assertEquals(NO_RESULT, availableLectureRes.size());
-        verify(lectureRepository, atLeastOnce()).selectAvailableLectures(now, REGISTER);
+        verify(lectureRepository, atLeastOnce()).selectAvailableLectures(any(LocalDateTime.class), eq(REGISTER));
     }
 
     @Test

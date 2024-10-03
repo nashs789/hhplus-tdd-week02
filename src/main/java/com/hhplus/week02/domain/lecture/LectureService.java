@@ -2,6 +2,7 @@ package com.hhplus.week02.domain.lecture;
 
 import com.hhplus.week02.application.LectureHistoryInfo;
 import com.hhplus.week02.application.LectureInfo;
+import com.hhplus.week02.domain.member.Member;
 import com.hhplus.week02.domain.member.MemberValidator;
 import com.hhplus.week02.infra.lecture.LectureHistoryRepository;
 import com.hhplus.week02.infra.lecture.LectureRepository;
@@ -58,15 +59,19 @@ public class LectureService {
 
     /**
      *
-     * @param lectureHistory
+     * @param member
+     * @param lecture
      * @return
      */
     @Transactional
-    public LectureHistoryInfo registerLecture(LectureHistory lectureHistory) {
-        Lecture targetLecture = lectureHistory.getLecture();
+    public LectureHistoryInfo registerLecture(Member member, Lecture lecture) {
+        LectureHistory lectureHistory = LectureHistory.builder()
+                                                      .lecture(lecture)
+                                                      .member(member)
+                                                      .build();
         Lecture registerLecture = lectureRepository.selectAvailableLecturesWithLock(LocalDateTime.now(), REGISTER)
                                                    .stream()
-                                                   .filter(lecture -> lecture.getId().equals(targetLecture.getId()))
+                                                   .filter(e -> e.getId().equals(lecture.getId()))
                                                    .findFirst()
                                                    .orElseThrow(() -> { throw new LectureException(NOT_AVAILABLE); });
 
