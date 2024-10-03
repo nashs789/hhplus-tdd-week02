@@ -202,10 +202,10 @@ class LectureServiceIntegrationTest {
                     Member savedMember = memberRepository.save(Member.builder()
                                                                      .name("Test Member")
                                                                      .build());
-                    LectureHistoryInfo lectureHistoryInfo = lectureService.registerLecture(LectureHistory.builder()
-                                                                                                         .lecture(saveLecture)
-                                                                                                         .member(savedMember)
-                                                                                                         .build());
+                    lectureService.registerLecture(LectureHistory.builder()
+                                                                 .lecture(saveLecture)
+                                                                 .member(savedMember)
+                                                                 .build());
                     successCount.addAndGet(1);
                 } catch(LectureException ex) {
                     failedCount.addAndGet(1);

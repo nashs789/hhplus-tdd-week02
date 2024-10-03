@@ -80,6 +80,10 @@ public class Lecture extends Timestamp {
 
         registerCnt++;
 
+        if(registerCnt >= 30) {
+            status = LectureStatus.FINISHED;
+        }
+
         return this;
     }
 }
