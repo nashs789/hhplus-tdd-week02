@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -63,10 +64,13 @@ public class LectureService {
      */
     @Transactional
     public LectureHistoryInfo registerLecture(Member member, Lecture lecture) {
-        lectureHistoryRepository.findByMember_IdAndLecture_Id(member.getId(), lecture.getId());
-                                //.orElseThrow(() -> { throw new LectureException(ALREADY_REGISTERED); });
+        LectureHistory lectureHistory = lectureHistoryRepository.findByMember_IdAndLecture_Id(member.getId(), lecture.getId());
 
-        LectureHistory lectureHistory = LectureHistory.builder()
+        if(Objects.nonNull(lectureHistory)) {
+            throw new LectureException(ALREADY_REGISTERED);
+        }
+
+        LectureHistory newLectureHistory = LectureHistory.builder()
                                                       .lecture(lecture)
                                                       .member(member)
                                                       .build();
@@ -78,7 +82,7 @@ public class LectureService {
 
         lectureRepository.save(registerLecture.increaseRegisterCount());
 
-        return lectureHistoryRepository.save(lectureHistory).toHistoryInfo();
+        return lectureHistoryRepository.save(newLectureHistory).toHistoryInfo();
     }
 
     /**
