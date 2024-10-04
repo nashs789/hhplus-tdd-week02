@@ -90,7 +90,7 @@ public class LectureServiceUnitTest {
         // given
         Member member = Member.builder().id(1L).build();
         Lecture lecture = Lecture.builder().id(1L).build();
-        when(lectureHistoryRepository.findByMember_IdAndLecture_Id(member.getId(), lecture.getId())).thenReturn(new LectureHistory());
+        lenient().when(lectureHistoryRepository.findByMember_IdAndLecture_Id(member.getId(), lecture.getId())).thenReturn(new LectureHistory());
 
         // when && then
         assertThrows(LectureException.class, () -> {

@@ -247,10 +247,12 @@ class LectureServiceIntegrationTest {
 
     @Test
     @DisplayName("동일한 유저 정보로 같은 특강을 5번 친성시, 1번만 성공")
-    @Transactional
-    public void sameMemberCanRegisterOneLectureOnce2() {
+    public void sameMemberCanRegisterOneLectureOnce2() throws InterruptedException {
         // given
         LocalDateTime now = LocalDateTime.now();
+        final Long LOOP_COUNT = 5L;
+        CountDownLatch countLatch = new CountDownLatch(LOOP_COUNT.intValue());
+        ExecutorService executor = Executors.newFixedThreadPool(LOOP_COUNT.intValue());
         Lecture lecture = Lecture.builder()
                                  .name("Test LectureA")
                                  .instructor("강사1")
@@ -264,21 +266,27 @@ class LectureServiceIntegrationTest {
                                  .build();
         Lecture saveLecture = lectureRepository.save(lecture);
         Member savedMember = memberRepository.save(Member.builder().name("Test Member").build());
-        int successCount = 0;
-        int failedCount = 0;
+        AtomicInteger successCount = new AtomicInteger(0);
+        AtomicInteger failedCount = new AtomicInteger(0);
 
         // when
-        for(int i = 0; i < 5; i++) {
-            try {
-                lectureService.registerLecture(savedMember, saveLecture);
-                successCount++;
-            } catch (LectureException ex) {
-                failedCount++;
-            }
+        for(int i = 0; i < LOOP_COUNT; i++) {
+            executor.submit(() -> {
+                try {
+                    lectureService.registerLecture(savedMember, saveLecture);
+                    successCount.addAndGet(1);
+                } catch (LectureException ex) {
+                    failedCount.addAndGet(1);
+                } finally {
+                    countLatch.countDown();
+                }
+            });
         }
 
+        countLatch.await();
+
         // then
-        assertEquals(1, successCount);
-        assertEquals(4, failedCount);
+        assertEquals(1, successCount.intValue());
+        assertEquals(4, failedCount.intValue());
     }
 }

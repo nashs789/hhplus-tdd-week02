@@ -64,6 +64,11 @@ public class LectureService {
      */
     @Transactional
     public LectureHistoryInfo registerLecture(Member member, Lecture lecture) {
+        Lecture registerLecture = lectureRepository.selectAvailableLecturesWithLock(LocalDateTime.now(), REGISTER)
+                                                   .stream()
+                                                   .filter(e -> e.getId().equals(lecture.getId()))
+                                                   .findFirst()
+                                                   .orElseThrow(() -> { throw new LectureException(NOT_AVAILABLE); });
         LectureHistory lectureHistory = lectureHistoryRepository.findByMember_IdAndLecture_Id(member.getId(), lecture.getId());
 
         if(Objects.nonNull(lectureHistory)) {
@@ -74,11 +79,6 @@ public class LectureService {
                                                       .lecture(lecture)
                                                       .member(member)
                                                       .build();
-        Lecture registerLecture = lectureRepository.selectAvailableLecturesWithLock(LocalDateTime.now(), REGISTER)
-                                                   .stream()
-                                                   .filter(e -> e.getId().equals(lecture.getId()))
-                                                   .findFirst()
-                                                   .orElseThrow(() -> { throw new LectureException(NOT_AVAILABLE); });
 
         lectureRepository.save(registerLecture.increaseRegisterCount());
 
