@@ -3,15 +3,14 @@ package com.hhplus.week02.domain.lecture;
 import com.hhplus.week02.application.LectureInfo;
 import com.hhplus.week02.domain.common.entity.Timestamp;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
+import static com.hhplus.week02.domain.lecture.LectureException.LectureExceptionMsg.*;
+
 @Entity
-@Getter
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -72,5 +71,19 @@ public class Lecture extends Timestamp {
                           .regStartTime(regStartTime)
                           .regEndTime(regEndTime)
                           .build();
+    }
+
+    public Lecture increaseRegisterCount() {
+        if(registerCnt >= capacity) {
+            throw new LectureException(NOT_AVAILABLE);
+        }
+
+        registerCnt++;
+
+        if(registerCnt >= 30) {
+            status = LectureStatus.FINISHED;
+        }
+
+        return this;
     }
 }

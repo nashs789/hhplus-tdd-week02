@@ -1,6 +1,6 @@
 package com.hhplus.week02.domain.member;
 
-import com.hhplus.week02.infrastructure.member.MemberRepository;
+import com.hhplus.week02.infra.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,5 +14,9 @@ public class MemberService {
 
     public Member selectMemberById(Long userId) {
         return memberRepository.findById(userId).orElseThrow(() -> { throw new MemberException(NOT_EXIST); });
+    }
+
+    public Member saveMember(Member member) {
+        return memberRepository.save(member);
     }
 }

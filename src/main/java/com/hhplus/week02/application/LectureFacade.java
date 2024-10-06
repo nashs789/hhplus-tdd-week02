@@ -38,11 +38,7 @@ public class LectureFacade {
 
         Lecture lecture = lectureService.selectLectureByUserId(registerLectureRequest.lectureId());
         Member member = memberService.selectMemberById(registerLectureRequest.userId());
-        LectureHistory lectureHistory = LectureHistory.builder()
-                                                      .lecture(lecture)
-                                                      .member(member)
-                                                      .build();
 
-        return lectureService.registerLecture(lectureHistory);
+        return lectureService.registerLecture(member, lecture);
     }
 }

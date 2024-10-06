@@ -3,12 +3,14 @@ package com.hhplus.week02.application;
 import com.hhplus.week02.api.lecture.dto.AvailableLectureResponse;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 import static com.hhplus.week02.domain.lecture.Lecture.*;
 
 @Getter
+@ToString
 @Builder
 public class LectureInfo {
     private Long id;

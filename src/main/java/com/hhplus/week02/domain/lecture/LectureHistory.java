@@ -4,13 +4,11 @@ import com.hhplus.week02.application.LectureHistoryInfo;
 import com.hhplus.week02.domain.common.entity.Timestamp;
 import com.hhplus.week02.domain.member.Member;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
+@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

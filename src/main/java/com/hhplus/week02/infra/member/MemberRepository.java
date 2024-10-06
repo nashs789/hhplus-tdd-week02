@@ -1,4 +1,4 @@
-package com.hhplus.week02.infrastructure.member;
+package com.hhplus.week02.infra.member;
 
 import com.hhplus.week02.domain.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;

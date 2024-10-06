@@ -2,10 +2,14 @@ package com.hhplus.week02.domain.member;
 
 import com.hhplus.week02.domain.common.entity.Timestamp;
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 
 @Entity
 @Getter
+@ToString
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Member extends Timestamp {
 
     @Id
